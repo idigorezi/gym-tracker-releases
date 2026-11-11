@@ -12,7 +12,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230c8a78'/%3E%3Cpath d='M9 11v10M6.5 13v6M23 11v10M25.5 13v6M9 16h14' stroke='white' stroke-width='2.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="assets/icon-64.png">
+  <link rel="apple-touch-icon" href="assets/icon-180.png">
+  <meta property="og:image" content="assets/icon-512.png">
   <style>
     :root {
       --bg: #f6f5f0;
@@ -90,11 +92,7 @@
     .nav.scrolled { border-bottom-color: var(--line); }
     .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
     .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 700 17px/1 var(--display); letter-spacing: -.01em; }
-    .mark {
-      width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center;
-      background: var(--accent); color: var(--accent-ink);
-    }
-    .mark svg { width: 20px; height: 20px; }
+    .mark { width: 32px; height: 32px; border-radius: 9px; display: block; box-shadow: 0 0 0 1px #ffffff14; }
     .nav-links { display: flex; align-items: center; gap: 28px; font-size: 14px; font-weight: 500; }
     .nav-links a { text-decoration: none; }
     .nav-links a:not(.btn) { color: var(--ink-2); }
@@ -165,7 +163,6 @@
     .side { padding: 16px 12px; border-right: 1px solid var(--line); background: var(--bg-2); display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
     .side .logo { display: flex; align-items: center; gap: 8px; padding: 4px 8px 16px; font-weight: 700; font-size: 14px; }
     .side .logo .mark { width: 24px; height: 24px; border-radius: 7px; }
-    .side .logo .mark svg { width: 15px; height: 15px; }
     .side a { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; color: var(--ink-2); text-decoration: none; pointer-events: none; }
     .side a svg { width: 16px; height: 16px; }
     .side a.on { background: var(--accent-soft); color: var(--accent-strong); font-weight: 600; }
@@ -282,7 +279,7 @@
     /* Final CTA */
     .final {
       margin: 120px auto 0; padding: clamp(40px, 7vw, 80px) 24px; border-radius: 28px; text-align: center;
-      background: #0f2420; color: #eef6f3; position: relative; overflow: hidden;
+      background: #0f1b33; color: #eef3fb; position: relative; overflow: hidden;
     }
     .final::before {
       content: ""; position: absolute; inset: 0;
@@ -290,11 +287,74 @@
     }
     .final > * { position: relative; }
     .final h2 { margin-inline: auto; color: #fff; }
-    .final p { margin: 0 auto; max-width: 480px; color: #a9c2bb; }
+    .final p { margin: 0 auto; max-width: 480px; color: #a7b3cc; }
     .final .btn-primary { background: #3cc7ae; color: #062520; margin-top: 32px; }
     .final .btn-primary:hover { background: #6fdcc7; }
-    .final .meta { color: #7f9a93; }
-    .final .meta b { color: #cfe2dc; }
+    .final .btn-onDark { margin: 32px 0 0 8px; color: #eef3fb; border: 1px solid #ffffff2e; }
+    .final .btn-onDark:hover { border-color: #ffffff80; }
+    .final .meta { color: #8693ad; }
+    .final .meta b { color: #dbe3f2; }
+
+    /* ---------- User guide ---------- */
+    .guide { display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center; }
+    .toc { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--line); counter-reset: ch; }
+    .toc li { border-bottom: 1px solid var(--line); }
+    .toc a {
+      display: grid; grid-template-columns: 32px 1fr auto; align-items: center; gap: 12px;
+      padding: 13px 4px; text-decoration: none; font-weight: 500;
+      transition: padding .2s ease, color .2s ease;
+    }
+    .toc a::before { counter-increment: ch; content: counter(ch, decimal-leading-zero); font: 700 13px/1 var(--display); color: var(--ink-3); }
+    .toc a span { font-size: 13px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+    .toc a span::after { content: " →"; opacity: 0; transition: opacity .2s; }
+    .toc a:hover { padding-left: 12px; color: var(--accent); }
+    .toc a:hover span::after { opacity: 1; }
+    .guide-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .guide-meta { margin-top: 14px; font-size: 13px; color: var(--ink-3); }
+
+    .book { position: relative; height: 520px; display: block; text-decoration: none; }
+    .book .pg {
+      position: absolute; top: 50%; left: 50%; width: 300px; aspect-ratio: 560 / 792;
+      border-radius: 6px; overflow: hidden; background: #fff;
+      box-shadow: 0 1px 0 #10201c14, 0 24px 48px -16px #10201c55;
+      transition: transform .5s cubic-bezier(.2,.7,.2,1);
+    }
+    .book .pg img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .book .p4 { transform: translate(-50%, -50%) translate(48px, 18px) rotate(9deg); }
+    .book .p3 { transform: translate(-50%, -50%) translate(26px, 8px) rotate(5deg); }
+    .book .p2 { transform: translate(-50%, -50%) translate(4px, 0) rotate(1deg); }
+    .book .p1 { transform: translate(-50%, -50%) translate(-30px, -6px) rotate(-5deg); }
+    .book:hover .p4, .book:focus-visible .p4 { transform: translate(-50%, -50%) translate(150px, 34px) rotate(14deg); }
+    .book:hover .p3, .book:focus-visible .p3 { transform: translate(-50%, -50%) translate(80px, 10px) rotate(7deg); }
+    .book:hover .p2, .book:focus-visible .p2 { transform: translate(-50%, -50%) translate(10px, -6px) rotate(0deg); }
+    .book:hover .p1, .book:focus-visible .p1 { transform: translate(-50%, -50%) translate(-90px, -14px) rotate(-9deg); }
+    .book .badge {
+      position: absolute; z-index: 3; left: 4%; bottom: 8%;
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px 10px 10px; border-radius: 14px;
+      background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); font-size: 13px; line-height: 1.3;
+      animation: bob 6s ease-in-out infinite;
+    }
+    .book .badge b { display: block; font-size: 14px; color: var(--ink); }
+    .book .badge span { color: var(--ink-3); }
+    .book .badge img { width: 36px; height: 36px; border-radius: 10px; }
+    .book .sticker {
+      position: absolute; z-index: 3; right: 6%; top: 6%; width: 92px; height: 92px; border-radius: 50%;
+      display: grid; place-items: center; text-align: center; transform: rotate(12deg);
+      background: var(--accent); color: var(--accent-ink); font: 800 13px/1.1 var(--display); letter-spacing: .02em;
+      box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--accent) 70%, transparent);
+    }
+    .book .sticker strong { display: block; font-size: 26px; }
+    @media (max-width: 900px) {
+      .guide { grid-template-columns: 1fr; gap: 24px; }
+      .book { order: -1; height: 440px; }
+      .book .pg { width: 240px; }
+    }
+    @media (max-width: 420px) {
+      .book { height: 380px; }
+      .book .pg { width: 200px; }
+      .book:hover .p4 { transform: translate(-50%, -50%) translate(70px, 24px) rotate(12deg); }
+      .book:hover .p1 { transform: translate(-50%, -50%) translate(-60px, -10px) rotate(-8deg); }
+    }
 
     footer { padding: 48px 0 40px; color: var(--ink-3); font-size: 14px; }
     footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: space-between; }
@@ -328,18 +388,20 @@
     <symbol id="i-gear" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></g></symbol>
     <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v6c0 4.5 3.2 7.8 7.5 9 4.3-1.2 7.5-4.5 7.5-9V6z"/><path d="m9 12 2 2 4-4"/></g></symbol>
     <symbol id="i-refresh" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.6-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.6 4.5L20 16M20 20v-4h-4"/></g></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5ZM12 6.5v13"/></g></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </svg>
 
   <header class="nav" id="nav">
     <div class="wrap">
       <a class="brand" href="#top" aria-label="Gym Tracker home">
-        <span class="mark"><svg><use href="#i-logo"/></svg></span>
+        <img class="mark" src="assets/icon-180.png" alt="" width="32" height="32">
         Gym Tracker
       </a>
       <nav class="nav-links" aria-label="Main">
         <a href="#features">Features</a>
         <a href="#install">Install</a>
+        <a href="#guide">User guide</a>
         <a href="https://github.com/idigorezi/gym-tracker-releases/releases/latest">Release notes</a>
         <a class="btn btn-primary js-download" href="https://github.com/idigorezi/gym-tracker-releases/releases/latest/download/GymTrackerSetup.exe">
           <svg><use href="#i-down"/></svg>Download
@@ -378,7 +440,7 @@
             <div class="titlebar"><span>Gym Tracker</span><i></i><i></i><i></i></div>
             <div class="app">
               <aside class="side">
-                <div class="logo"><span class="mark"><svg><use href="#i-logo"/></svg></span>Gym Tracker</div>
+                <div class="logo"><img class="mark" src="assets/icon-180.png" alt="" width="32" height="32">Gym Tracker</div>
                 <a class="on"><svg><use href="#i-bell"/></svg>Who has to pay</a>
                 <a><svg><use href="#i-users"/></svg>Members</a>
                 <a><svg><use href="#i-cards"/></svg>Plans</a>
@@ -481,16 +543,58 @@
           </div>
           <div class="step reveal">
             <h4>Add your plans and members</h4>
-            <p>Create your plans, add members and start taking payments. That's it.</p>
+            <p>Create your plans, add members and start taking payments. Stuck? <a href="#guide">The user guide</a> walks you through it.</p>
           </div>
         </div>
+      </div>
+    </section>
 
+    <section id="guide">
+      <div class="wrap guide">
+        <div class="reveal">
+          <div class="eyebrow">User guide</div>
+          <h2>The whole front desk, in eight pages.</h2>
+          <p class="sub">A short illustrated guide with real screenshots: first-time setup, taking payments, sending reminders and keeping your backups safe. Print it and keep it next to the PC.</p>
+          <ol class="toc">
+              <li><a href="guide/Gym-Tracker-User-Guide.pdf#page=2" target="_blank" rel="noopener">Getting started<span>p. 2</span></a></li>
+              <li><a href="guide/Gym-Tracker-User-Guide.pdf#page=2" target="_blank" rel="noopener">Your daily work<span>p. 2</span></a></li>
+              <li><a href="guide/Gym-Tracker-User-Guide.pdf#page=4" target="_blank" rel="noopener">Members<span>p. 4</span></a></li>
+              <li><a href="guide/Gym-Tracker-User-Guide.pdf#page=5" target="_blank" rel="noopener">Plans<span>p. 5</span></a></li>
+              <li><a href="guide/Gym-Tracker-User-Guide.pdf#page=6" target="_blank" rel="noopener">Reports<span>p. 6</span></a></li>
+              <li><a href="guide/Gym-Tracker-User-Guide.pdf#page=7" target="_blank" rel="noopener">Settings and backups<span>p. 7</span></a></li>
+              <li><a href="guide/Gym-Tracker-User-Guide.pdf#page=8" target="_blank" rel="noopener">Good to know<span>p. 8</span></a></li>
+          </ol>
+          <div class="guide-cta">
+            <a class="btn btn-primary" href="guide/Gym-Tracker-User-Guide.pdf" download="Gym Tracker - User guide.pdf">
+              <svg><use href="#i-down"/></svg>Download the guide
+            </a>
+            <a class="btn btn-ghost" href="guide/Gym-Tracker-User-Guide.pdf" target="_blank" rel="noopener">
+              <svg><use href="#i-book"/></svg>Read it online
+            </a>
+          </div>
+          <div class="guide-meta">PDF · 8 pages · 1.3 MB · Version 1.0.3</div>
+        </div>
+
+        <a class="book reveal" href="guide/Gym-Tracker-User-Guide.pdf" target="_blank" rel="noopener" aria-label="Open the Gym Tracker user guide (PDF)">
+          <div class="pg p4"><img src="guide/page-4.webp" alt="" loading="lazy" width="560" height="792"></div>
+          <div class="pg p3"><img src="guide/page-3.webp" alt="" loading="lazy" width="560" height="792"></div>
+          <div class="pg p2"><img src="guide/page-2.webp" alt="" loading="lazy" width="560" height="792"></div>
+          <div class="pg p1"><img src="guide/page-1.webp" alt="" loading="lazy" width="560" height="792"></div>
+          <div class="sticker"><div><strong>8</strong>pages</div></div>
+          <div class="badge"><img src="assets/icon-180.png" alt=""><div><b>Gym Tracker user guide</b><span>Free · No sign-up</span></div></div>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
         <div class="final reveal">
           <h2>Stop chasing payments on paper.</h2>
           <p>Download Gym Tracker and let the app keep track of who owes what.</p>
           <a class="btn btn-primary js-download" href="https://github.com/idigorezi/gym-tracker-releases/releases/latest/download/GymTrackerSetup.exe">
             <svg><use href="#i-win"/></svg>Download for Windows
           </a>
+          <a class="btn btn-onDark" href="#guide">Read the user guide</a>
           <div class="meta js-meta">Windows 10 &amp; 11 · Free updates</div>
         </div>
       </div>
@@ -501,6 +605,7 @@
     <div class="wrap">
       <a class="by" href="https://ryenbytes.com">Made by <b>RyenBytes</b></a>
       <nav aria-label="Footer">
+        <a href="guide/Gym-Tracker-User-Guide.pdf" target="_blank" rel="noopener">User guide (PDF)</a>
         <a href="https://github.com/idigorezi/gym-tracker-releases/releases/latest">Release notes</a>
         <a href="https://github.com/idigorezi/gym-tracker-releases/releases">All versions</a>
         <a href="https://ryenbytes.com">ryenbytes.com</a>
