@@ -28,11 +28,12 @@
       font-size: 15px; font-weight: 800; text-decoration: none; transition: transform .18s, background .18s;
     }
     .download:hover { transform: translateY(-2px); background: #c7ff80; }
-    .download:focus-visible, .release:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+    .download:focus-visible, .release:focus-visible, .website:focus-visible { outline: 3px solid white; outline-offset: 4px; }
     .download svg { width: 19px; height: 19px; }
     .version { min-height: 20px; color: #899589; font-size: 13px; }
     .release { display: inline-block; margin-top: 26px; color: #c5d0c3; font-size: 13px; text-decoration-color: #667366; text-underline-offset: 4px; }
-    .release:hover { color: #b7f36b; }
+    .release:hover, .website:hover { color: #b7f36b; }
+    .website { display: inline-block; margin-top: 14px; color: #899589; font-size: 13px; text-underline-offset: 4px; }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
   </style>
 </head>
@@ -50,6 +51,8 @@
     </a>
     <div class="version" id="version" aria-live="polite">Getting the latest version…</div>
     <a class="release" href="https://github.com/idigorezi/gym-tracker-releases/releases/latest">Release notes</a>
+    <br>
+    <a class="website" href="https://ryenbytes.com">ryenbytes.com</a>
   </main>
   <script>
     fetch('https://api.github.com/repos/idigorezi/gym-tracker-releases/releases/latest')
